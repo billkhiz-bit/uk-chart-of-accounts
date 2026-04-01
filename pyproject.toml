@@ -1,0 +1,50 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "uk-chart-of-accounts"
+version = "0.1.0"
+description = "Machine-readable UK Chart of Accounts with VAT treatments and HMRC mappings"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Bilal Khizar", email = "billkhiz@gmail.com" },
+]
+keywords = [
+    "accounting",
+    "bookkeeping",
+    "uk",
+    "chart-of-accounts",
+    "nominal-codes",
+    "hmrc",
+    "vat",
+    "sage",
+    "finance",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Financial :: Accounting",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://github.com/billkhiz-bit/uk-chart-of-accounts"
+Repository = "https://github.com/billkhiz-bit/uk-chart-of-accounts"
+Issues = "https://github.com/billkhiz-bit/uk-chart-of-accounts/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/uk_coa"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
