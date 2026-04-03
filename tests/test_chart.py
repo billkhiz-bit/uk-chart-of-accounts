@@ -3,6 +3,7 @@
 import json
 
 from uk_coa import AccountType, ChartOfAccounts, VatRate
+from uk_coa import __version__
 
 
 class TestChartOfAccounts:
@@ -88,6 +89,11 @@ class TestChartOfAccounts:
         codes = [a.code for a in self.coa]
         assert codes == sorted(codes)
 
+    def test_descriptions_coverage(self):
+        """At least 50% of accounts should have descriptions."""
+        with_desc = sum(1 for a in self.coa if a.description is not None)
+        assert with_desc >= 83, f"Only {with_desc}/166 accounts have descriptions"
+
 
 class TestAccountModel:
     """Test the Account dataclass properties."""
@@ -167,7 +173,7 @@ class TestExport:
 
     def test_to_dict_structure(self):
         d = self.coa.to_dict()
-        assert d["version"] == "1.0.0"
+        assert d["version"] == __version__
         assert "accounts" in d
         assert "7602" in d["accounts"]
         assert d["accounts"]["7602"]["name"] == "Accountancy Fees"

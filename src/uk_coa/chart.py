@@ -2,6 +2,7 @@
 
 from typing import Optional
 
+from . import __version__
 from .data import ACCOUNTS
 from .enums import AccountType, VatRate
 from .models import Account
@@ -123,7 +124,7 @@ class ChartOfAccounts:
     def to_dict(self) -> dict:
         """Export full chart as a dictionary (for JSON serialisation)."""
         return {
-            "version": "1.0.0",
+            "version": __version__,
             "description": "UK Chart of Accounts - standard nominal codes",
             "accounts": {
                 str(a.code): {

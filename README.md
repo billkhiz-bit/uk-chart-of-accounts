@@ -1,6 +1,14 @@
 # uk-chart-of-accounts
 
+[![PyPI version](https://img.shields.io/pypi/v/uk-chart-of-accounts)](https://pypi.org/project/uk-chart-of-accounts/)
+[![Python versions](https://img.shields.io/pypi/pyversions/uk-chart-of-accounts)](https://pypi.org/project/uk-chart-of-accounts/)
+[![License: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](https://github.com/billkhiz-bit/uk-chart-of-accounts/blob/master/LICENSE)
+
 Machine-readable UK Chart of Accounts for Python. 166 standard nominal codes with account types, VAT treatments, and HMRC box mappings.
+
+## Why this exists
+
+There is no well-maintained, machine-readable UK Chart of Accounts on PyPI. US-centric libraries exist, but UK accounting has different nominal code ranges, VAT treatments (standard, reduced, zero-rated, exempt, outside scope), and HMRC-specific box mappings (CT600, VAT Return, FPS/RTI, CIS). This library fills that gap — designed for developers building UK accounting tools, bookkeeping automation, and AI-powered transaction categorisation.
 
 ## Install
 
@@ -81,10 +89,13 @@ data = coa.to_dict()
 
 ## Contributing
 
-PRs welcome - particularly for:
+PRs welcome — particularly for:
 - Additional HMRC box mappings
 - VAT treatment corrections
+- Descriptions for accounts that lack them
 - Industry-specific code extensions
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup instructions and guidelines.
 
 ## Licence
 
