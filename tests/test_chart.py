@@ -90,9 +90,9 @@ class TestChartOfAccounts:
         assert codes == sorted(codes)
 
     def test_descriptions_coverage(self):
-        """At least 50% of accounts should have descriptions."""
+        """At least 160/166 accounts should have descriptions (96%+)."""
         with_desc = sum(1 for a in self.coa if a.description is not None)
-        assert with_desc >= 83, f"Only {with_desc}/166 accounts have descriptions"
+        assert with_desc >= 160, f"Only {with_desc}/166 accounts have descriptions"
 
 
 class TestAccountModel:

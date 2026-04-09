@@ -21,7 +21,7 @@ Usage::
     context = coa.to_prompt_context()
 """
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 from .chart import ChartOfAccounts
 from .enums import AccountType, FinancialStatement, VatRate
