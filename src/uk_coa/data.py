@@ -197,8 +197,8 @@ ACCOUNTS: tuple[Account, ...] = (
             description="Total gross pay of employees before PAYE and NI deductions. Reported via Full Payment Submission (FPS) on or before each pay date. Outside scope — wages are not a supply of goods or services."),
     Account(7001, "Directors Salaries",             T.OVERHEAD, V.OUTSIDE_SCOPE, hmrc_box="FPS/RTI", tags=("payroll", "directors"),
             description="Formal salary payments to company directors processed via PAYE. Reported on FPS. Directors use an annual earnings period for NI, distinct from ordinary employees."),
-    # TODO(bill): Clarify how 7002 differs from 7001 in your practice. Bonuses? Benefits in kind? Ex-gratia payments? Director dividends are NOT coded here — they sit in reserves/dividends.
-    Account(7002, "Directors Remuneration",         T.OVERHEAD, V.OUTSIDE_SCOPE, hmrc_box="FPS/RTI", tags=("payroll", "directors")),
+    Account(7002, "Directors Remuneration",         T.OVERHEAD, V.OUTSIDE_SCOPE, hmrc_box="FPS/RTI", tags=("payroll", "directors"),
+            description="Non-salary director compensation — bonuses, fees, and ex-gratia payments processed via PAYE. Use 7001 for regular salary. Dividends are equity distributions (reserves), not remuneration, and do not belong here."),
     Account(7003, "Staff Salaries",                 T.OVERHEAD, V.OUTSIDE_SCOPE, hmrc_box="FPS/RTI", tags=("payroll",),
             description="Monthly salaries of non-director employees. Processed via PAYE and reported on Full Payment Submission (FPS) on or before each pay date. Outside scope of VAT."),
     Account(7004, "Wages - Regular",                T.OVERHEAD, V.OUTSIDE_SCOPE, hmrc_box="FPS/RTI", tags=("payroll",),
@@ -211,10 +211,10 @@ ACCOUNTS: tuple[Account, ...] = (
             description="Employer auto-enrolment pension contributions (minimum 3% of qualifying earnings). Must be paid to the scheme by the 22nd of the following month."),
     Account(7008, "Recruitment Expenses",           T.OVERHEAD, V.STANDARD, tags=("payroll",),
             description="Agency fees, job advertising, and recruitment platform subscriptions. Standard rated with VAT reclaimable on UK suppliers. Deductible in the period incurred."),
-    # TODO(bill): Clarify intended use of 7009 "Adjustments" — payroll corrections? Prior-period reclassifications? Under/over-accruals? Too vague to describe without knowing your convention.
-    Account(7009, "Adjustments",                    T.OVERHEAD, V.OUTSIDE_SCOPE, tags=("payroll",)),
-    # TODO(bill): 7010 SSP Reclaim is a LEGACY code. The Percentage Threshold Scheme ended 2014 and SSP is no longer reclaimable in normal circumstances (COVID-era relief has also ended). Confirm whether to keep, deprecate, or reword for the narrow cases where it still applies.
-    Account(7010, "SSP Reclaimed",                  T.OVERHEAD, V.OUTSIDE_SCOPE, hmrc_box="EPS", tags=("payroll",)),
+    Account(7009, "Adjustments",                    T.OVERHEAD, V.OUTSIDE_SCOPE, tags=("payroll",),
+            description="Payroll corrections and prior-period adjustments — under/over-accruals, reclassifications between pay codes, and corrections to earlier FPS submissions. Outside scope of VAT. Keep usage narrow to avoid masking errors."),
+    Account(7010, "SSP Reclaimed",                  T.OVERHEAD, V.OUTSIDE_SCOPE, hmrc_box="EPS", tags=("payroll",),
+            description="Legacy code — Statutory Sick Pay recovery via EPS. The Percentage Threshold Scheme ended April 2014 and COVID-era SSP rebates have also ended. Retained for historical records and the rare cases where recovery still applies."),
     Account(7011, "SMP Reclaimed",                  T.OVERHEAD, V.OUTSIDE_SCOPE, hmrc_box="EPS", tags=("payroll",),
             description="Statutory Maternity Pay recovered from HMRC via the Employer Payment Summary (EPS). Small employers reclaim 103%; larger employers reclaim 92%. Same mechanism applies to SPP, ShPP, and SAP."),
     Account(7012, "Employers N.I. (Directors)",     T.OVERHEAD, V.OUTSIDE_SCOPE, hmrc_box="FPS/RTI; EPS", tags=("payroll", "directors"),
@@ -331,20 +331,20 @@ ACCOUNTS: tuple[Account, ...] = (
             description="Interest charged on business bank overdrafts and short-term facilities. VAT exempt as a financial service. Tax deductible as a trading expense on CT600 Box 44."),
     Account(7901, "Bank Charges",                   T.OVERHEAD, V.EXEMPT,   tags=("finance",),
             description="Account fees, transaction charges, and transfer costs. Generally VAT exempt as financial services. Some specific advisory or document services from banks may carry standard-rate VAT."),
-    # TODO(bill): 7902 Currency Charges — is this for explicit FX fees (exempt, as banks' financial services) or the implicit FX spread (which is rolled into 7906 Exchange Rate Variance)? The account name is ambiguous. Confirm intended scope.
-    Account(7902, "Currency Charges",               T.OVERHEAD, V.EXEMPT,   tags=("finance",)),
+    Account(7902, "Currency Charges",               T.OVERHEAD, V.EXEMPT,   tags=("finance",),
+            description="Explicit foreign exchange conversion fees charged by banks or payment providers. VAT exempt as a financial service. Distinct from 7906 Exchange Rate Variance, which captures the FX gain/loss itself."),
     Account(7903, "Loan Interest Paid",             T.OVERHEAD, V.EXEMPT,   hmrc_box="CT600 Box 44", tags=("finance",),
             description="Interest on business loans from banks or third parties. VAT exempt. Deductible on CT600 Box 44, subject to the Corporate Interest Restriction for groups with net interest over £2 million."),
     Account(7904, "H.P. Interest",                  T.OVERHEAD, V.EXEMPT,   hmrc_box="CT600 Box 44", tags=("finance",),
             description="Interest element of hire purchase agreements. VAT exempt. Spread over the life of the agreement on an actuarial or sum-of-digits basis and deducted on CT600 Box 44."),
-    # TODO(bill): 7905 Credit Charges — name is too vague. Is this credit card merchant fees (card processing), credit card interest, or late-payment credit charges? Each has different VAT and CT treatment.
-    Account(7905, "Credit Charges",                 T.OVERHEAD, V.EXEMPT,   tags=("finance",)),
+    Account(7905, "Credit Charges",                 T.OVERHEAD, V.EXEMPT,   tags=("finance",),
+            description="Credit card merchant and processing fees charged for accepting card payments (e.g. Stripe, SumUp, Worldpay). VAT exempt as a financial service. Credit card interest on business cards should use 7907 Other Interest Charges instead."),
     Account(7906, "Exchange Rate Variance",         T.OVERHEAD, V.OUTSIDE_SCOPE, tags=("finance",),
             description="Realised and unrealised gains or losses on foreign currency transactions and balances. Outside scope of VAT. Taxable or deductible as a trading item when arising on trade receivables or payables."),
     Account(7907, "Other Interest Charges",         T.OVERHEAD, V.EXEMPT,   hmrc_box="CT600 Box 44", tags=("finance",),
             description="Interest on other borrowings not covered by 7900/7903/7904 — director loans, intercompany loans, lease interest. VAT exempt. Deductible on CT600 Box 44, subject to transfer pricing rules for related-party loans."),
-    # TODO(bill): 7908 Factoring Charges — factoring fees are generally exempt as financial services, but recourse vs non-recourse factoring affects whether debts stay on balance sheet. Also needs distinction from invoice discounting. Needs your steer on typical usage.
-    Account(7908, "Factoring Charges",              T.OVERHEAD, V.EXEMPT,   tags=("finance",)),
+    Account(7908, "Factoring Charges",              T.OVERHEAD, V.EXEMPT,   tags=("finance",),
+            description="Fees paid to a factoring or invoice discounting company for advancing funds against trade receivables. VAT exempt as a financial service. With recourse factoring the credit risk remains with the business; non-recourse transfers the risk to the factor."),
 
     # Depreciation
     Account(8000, "Depreciation",                   T.OVERHEAD, V.OUTSIDE_SCOPE, hmrc_box="CT600 Box 46", tags=("depreciation",),

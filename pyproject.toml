@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "uk-chart-of-accounts"
-version = "0.1.2"
+version = "0.1.3"
 description = "Machine-readable UK Chart of Accounts with VAT treatments and HMRC mappings"
 readme = "README.md"
 license = "MIT"
